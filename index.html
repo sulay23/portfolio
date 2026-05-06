@@ -133,9 +133,7 @@ nav.show{opacity:1;transform:translateY(0)}
 
 /* ══ HERO ══ */
 #hero{
-  height:100vh;
-  height:100svh;
-  position:relative;overflow:hidden;
+  height:100vh;position:relative;overflow:hidden;
   display:flex;align-items:center;background:var(--bg);
 }
 /* deep parallax bg layers */
@@ -171,13 +169,11 @@ nav.show{opacity:1;transform:translateY(0)}
   gap:40px;align-items:center;
   height:100%;
   overflow:visible;
-  box-sizing:border-box;
 }
 .hero-left{
   display:flex;flex-direction:column;justify-content:center;
   padding-right:20px;
   min-width:0;
-  overflow:hidden;
 }
 .hero-kicker{
   font-family:'Syne Mono',monospace;font-size:11px;letter-spacing:.35em;
@@ -235,15 +231,14 @@ nav.show{opacity:1;transform:translateY(0)}
   height:100%;
   display:flex;
   align-items:center;
-  justify-content:center;
+  justify-content:right;
   position:relative;
   padding:80px 20px 60px;
   opacity:0;animation:fadeIn .8s 2.1s ease forwards;
-  overflow:visible;
-  min-width:0;
 }
 @keyframes fadeIn{to{opacity:1}}
 @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+
 
 /* portrait wrapper — gives room for badge overflow */
 .portrait-wrap{
