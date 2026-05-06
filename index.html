@@ -772,7 +772,182 @@ footer{
             <!-- halo glow -->
             <ellipse cx="170" cy="195" rx="130" ry="140" fill="url(#haloG)"/>
 
-             <!-- ── LABEL BAR ── -->
+            <!-- ══════════════════════════════
+                 HAIR BACK LAYER (behind head)
+                 Head center: cx=170 cy=185
+                 Hair top starts ~cy=60
+            ═══════════════════════════════ -->
+            <!-- Main back hair mass — flows from top of head down both sides -->
+            <path d="
+              M 120 85
+              Q 105 65 105 50
+              Q 135 35 170 32
+              Q 205 35 235 50
+              Q 235 65 220 85
+              Q 242 90 255 110
+              Q 275 160 272 280
+              Q 268 360 255 410
+              Q 240 425 225 415
+              Q 218 370 220 300
+              Q 222 230 215 165
+              Q 196 140 170 138
+              Q 144 140 125 165
+              Q 118 230 120 300
+              Q 122 370 115 415
+              Q 100 425 85 410
+              Q 72 360 68 280
+              Q 65 160 85 110
+              Q 98 90 120 85 Z
+            " fill="url(#hairG)"/>
+            <!-- Hair shine stripe on right side -->
+            <path d="M 215 80 Q 240 130 238 260 Q 230 130 218 82 Z" fill="url(#hairShineG)" opacity="0.6"/>
+
+            <!-- ── BODY / TORSO ── -->
+            <!-- Shoulders wide, connected seamlessly to neck -->
+            <!-- Torso: neck bottom is ~cy=278 -->
+            <path d="
+              M 60 480
+              L 55 400
+              Q 50 370 75 345
+              Q 105 320 140 308
+              Q 154 304 160 300
+              L 160 278
+              Q 170 276 180 278
+              L 180 300
+              Q 186 304 200 308
+              Q 235 320 265 345
+              Q 290 370 285 400
+              L 280 480 Z
+            " fill="url(#clothG)" opacity="0.97"/>
+            <!-- cloth shade overlay -->
+            <path d="M 60 480 L 55 400 Q 50 370 75 345 Q 105 320 140 308 Q 154 304 160 300 L 160 278 Q 170 276 180 278 L 180 300 Q 186 304 200 308 Q 235 320 265 345 Q 290 370 285 400 L 280 480 Z"
+                  fill="url(#clothShade)" opacity="0.5"/>
+            <!-- V-neckline -->
+            <path d="M 148 306 Q 170 335 192 306" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Collar highlight -->
+            <path d="M 133 318 Q 170 342 207 318" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="4"/>
+
+            <!-- ── NECK ── -->
+            <!-- Neck: from y=240 (chin base) to y=300 (torso top) -->
+            <rect x="153" y="242" width="34" height="60" rx="17" fill="url(#skinBodyG)"/>
+            <!-- neck shadow left -->
+            <rect x="153" y="242" width="10" height="60" rx="5" fill="rgba(120,60,20,0.2)"/>
+            <!-- neck shadow right -->
+            <rect x="177" y="242" width="10" height="60" rx="5" fill="rgba(120,60,20,0.2)"/>
+
+            <!-- ── HEAD ── -->
+            <!-- Head: cx=170 cy=175, rx=72 ry=82 -->
+            <!-- Slightly wider jaw -->
+            <ellipse cx="170" cy="175" rx="72" ry="82" fill="url(#skinG)"/>
+            <!-- Jaw shadow/definition -->
+            <ellipse cx="170" cy="200" rx="72" ry="82" fill="rgba(150,70,30,0.08)"/>
+
+            <!-- ── EARS ── -->
+            <ellipse cx="99" cy="182" rx="10" ry="13" fill="#dda060"/>
+            <ellipse cx="241" cy="182" rx="10" ry="13" fill="#dda060"/>
+            <ellipse cx="99" cy="182" rx="5" ry="7" fill="rgba(160,75,30,0.35)"/>
+            <ellipse cx="241" cy="182" rx="5" ry="7" fill="rgba(160,75,30,0.35)"/>
+
+            <!-- ── EARRINGS ── -->
+            <circle cx="99" cy="196" r="7" fill="none" stroke="#b8ff57" stroke-width="2"/>
+            <circle cx="99" cy="196" r="3.5" fill="#b8ff57"/>
+            <circle cx="99" cy="196" r="10" fill="none" stroke="rgba(184,255,87,0.15)" stroke-width="5"/>
+            <circle cx="241" cy="196" r="7" fill="none" stroke="#b8ff57" stroke-width="2"/>
+            <circle cx="241" cy="196" r="3.5" fill="#b8ff57"/>
+            <circle cx="241" cy="196" r="10" fill="none" stroke="rgba(184,255,87,0.15)" stroke-width="5"/>
+
+            <!-- ── HAIR FRONT (over head edges + top) ── -->
+            <!-- Top hairline arc — middle part -->
+            <path d="
+              M 100 160
+              Q 98 105 170 88
+              Q 242 105 240 160
+              Q 225 115 170 108
+              Q 115 115 100 160 Z
+            " fill="url(#hairG)"/>
+            <!-- Left side fringe wispier -->
+            <path d="M 100 162 Q 96 182 98 210 Q 106 205 108 180 Z" fill="url(#hairG)"/>
+            <!-- Right side fringe -->
+            <path d="M 240 162 Q 244 182 242 210 Q 234 205 232 180 Z" fill="url(#hairG)"/>
+
+            <!-- ── FACE FEATURES ──
+                 Head center x=170, face zone y=130-240
+                 Bindi: y=138
+                 Eyebrows: y=150
+                 Eyes: y=163
+                 Nose bridge: y=175, tip: y=200
+                 Lips: y=215-228
+                 Chin: y~250
+            ── -->
+
+            <!-- BINDI -->
+            <circle cx="170" cy="138" r="8" fill="rgba(184,255,87,0.18)"/>
+            <circle cx="170" cy="138" r="5.5" fill="#b8ff57" opacity="0.95"/>
+            <circle cx="170" cy="138" r="2.5" fill="white"/>
+            <circle cx="170" cy="138" r="11" fill="none" stroke="rgba(184,255,87,0.4)" stroke-width="1"/>
+
+            <!-- EYEBROWS — well arched, natural spacing -->
+            <path d="M 128 152 Q 143 143 159 148" stroke="#241006" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+            <path d="M 181 148 Q 197 143 212 152" stroke="#241006" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+
+            <!-- EYES — properly spaced, cx 145 and 195 -->
+            <!-- Left eye -->
+            <ellipse cx="145" cy="165" rx="17" ry="11" fill="#f5f5f5"/>
+            <circle cx="147" cy="166" r="9" fill="#1a0902"/>
+            <circle cx="147" cy="166" r="9" fill="none" stroke="#3a1a08" stroke-width="1.5"/>
+            <circle cx="147" cy="166" r="9" fill="none" stroke="rgba(184,255,87,0.15)" stroke-width="1"/>
+            <circle cx="147" cy="167" r="4.5" fill="#060301"/>
+            <circle cx="150" cy="163" r="2.5" fill="white"/>
+            <circle cx="143" cy="168" r="1.2" fill="rgba(255,255,255,0.5)"/>
+            <!-- Left upper lid -->
+            <path d="M 128 159 Q 145 153 162 159" stroke="#241006" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- Left lower lid -->
+            <path d="M 129 171 Q 145 176 162 171" stroke="rgba(160,80,40,0.3)" stroke-width="1.2" fill="none"/>
+
+            <!-- Right eye -->
+            <ellipse cx="195" cy="165" rx="17" ry="11" fill="#f5f5f5"/>
+            <circle cx="193" cy="166" r="9" fill="#1a0902"/>
+            <circle cx="193" cy="166" r="9" fill="none" stroke="#3a1a08" stroke-width="1.5"/>
+            <circle cx="193" cy="166" r="9" fill="none" stroke="rgba(184,255,87,0.15)" stroke-width="1"/>
+            <circle cx="193" cy="167" r="4.5" fill="#060301"/>
+            <circle cx="196" cy="163" r="2.5" fill="white"/>
+            <circle cx="189" cy="168" r="1.2" fill="rgba(255,255,255,0.5)"/>
+            <!-- Right upper lid -->
+            <path d="M 178 159 Q 195 153 212 159" stroke="#241006" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- Right lower lid -->
+            <path d="M 178 171 Q 195 176 212 171" stroke="rgba(160,80,40,0.3)" stroke-width="1.2" fill="none"/>
+
+            <!-- CHEEK BLUSH -->
+            <ellipse cx="118" cy="188" rx="20" ry="12" fill="url(#blushG)"/>
+            <ellipse cx="222" cy="188" rx="20" ry="12" fill="url(#blushG)"/>
+
+            <!-- NOSE — bridge starts y=178, tip y=205 -->
+            <path d="M 164 178 Q 160 192 161 200 Q 165 208 170 208 Q 175 208 179 200 Q 180 192 176 178"
+                  stroke="#b87040" stroke-width="1.8" fill="rgba(180,100,50,0.07)" stroke-linecap="round"/>
+            <ellipse cx="162" cy="203" rx="5" ry="3" fill="rgba(140,70,30,0.22)"/>
+            <ellipse cx="178" cy="203" rx="5" ry="3" fill="rgba(140,70,30,0.22)"/>
+
+            <!-- LIPS — y starts 218 -->
+            <!-- Upper lip -->
+            <path d="M 149 218 Q 158 212 170 214 Q 182 212 191 218 Q 182 223 170 224 Q 158 223 149 218 Z"
+                  fill="#bf5040"/>
+            <path d="M 149 218 Q 159 211 170 213 Q 181 211 191 218"
+                  fill="none" stroke="#9a3830" stroke-width="1.2"/>
+            <!-- Lower lip -->
+            <path d="M 149 218 Q 158 233 170 235 Q 182 233 191 218 Q 182 223 170 225 Q 158 223 149 218 Z"
+                  fill="#d06050"/>
+            <!-- Lip highlight -->
+            <ellipse cx="170" cy="226" rx="11" ry="4" fill="rgba(255,190,170,0.22)"/>
+            <!-- Lip line -->
+            <path d="M 149 218 Q 170 220 191 218" stroke="#9a3830" stroke-width="0.8" fill="none"/>
+
+            <!-- NECKLACE -->
+            <path d="M 142 300 Q 170 322 198 300" fill="none" stroke="rgba(184,255,87,0.55)" stroke-width="1.5"/>
+            <circle cx="170" cy="320" r="3.5" fill="#b8ff57" opacity="0.65"/>
+            <circle cx="153" cy="308" r="2" fill="rgba(184,255,87,0.45)"/>
+            <circle cx="187" cy="308" r="2" fill="rgba(184,255,87,0.45)"/>
+
+            <!-- ── LABEL BAR ── -->
             <rect x="0" y="425" width="340" height="55" fill="rgba(0,0,0,0.75)"/>
             <rect x="0" y="425" width="340" height="2" fill="#b8ff57"/>
             <text x="170" y="451" text-anchor="middle"
