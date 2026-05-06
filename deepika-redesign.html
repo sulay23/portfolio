@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deepika Bansal — Graphic Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500&family=Syne+Mono&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════
+   TOKENS
+══════════════════════════════════════ */
+:root{
+  --bg:       #050507;
+  --surface:  #0d0d12;
+  --panel:    #111118;
+  --border:   rgba(255,255,255,0.07);
+  --neon:     #b8ff57;
+  --neon2:    #ff57b8;
+  --neon3:    #57b8ff;
+  --txt:      #e8e8f0;
+  --muted:    rgba(232,232,240,0.45);
+  --white:    #ffffff;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto;overflow-x:hidden}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--txt);
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* ══ CUSTOM CURSOR ══ */
+#dot{
+  position:fixed;width:6px;height:6px;
+  background:var(--neon);border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:transform .15s,width .25s,height .25s;
+  box-shadow:0 0 10px var(--neon),0 0 20px var(--neon);
+}
+#ring{
+  position:fixed;width:32px;height:32px;
+  border:1px solid rgba(184,255,87,.5);
+  border-radius:50%;pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:width .4s cubic-bezier(.23,1,.32,1),height .4s,opacity .3s,border-color .3s;
+}
+body:hover #dot{opacity:1}
+.cur-grow #dot{width:14px;height:14px}
+.cur-grow #ring{width:52px;height:52px;border-color:rgba(184,255,87,.2)}
+
+/* ══ SCROLL BAR ══ */
+#pbar{
+  position:fixed;top:0;left:0;height:2px;
+  background:linear-gradient(90deg,var(--neon),var(--neon2));
+  z-index:600;width:0;
+}
+
+/* ══ LOADER ══ */
+#ldr{
+  position:fixed;inset:0;z-index:10000;
+  background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:32px;overflow:hidden;
+}
+.ldr-ring{
+  width:80px;height:80px;border-radius:50%;
+  border:1px solid rgba(184,255,87,.15);
+  border-top-color:var(--neon);
+  animation:spin 1s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ldr-pct{
+  font-family:'Syne Mono',monospace;font-size:13px;letter-spacing:.2em;
+  color:var(--neon);
+}
+.ldr-bar-wrap{width:200px;height:1px;background:rgba(255,255,255,.1)}
+.ldr-bar{height:100%;background:var(--neon);width:0;transition:width .05s linear}
+#ldr.fade-out{animation:ldrOut .7s .2s cubic-bezier(.76,0,.24,1) forwards}
+@keyframes ldrOut{to{opacity:0;visibility:hidden;pointer-events:none}}
+
+/* ══ NAV ══ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:24px 52px;
+  background:linear-gradient(to bottom,rgba(5,5,7,.9) 0%,transparent 100%);
+  backdrop-filter:blur(0px);
+  opacity:0;transform:translateY(-20px);
+  transition:opacity .6s,transform .6s;
+}
+nav.show{opacity:1;transform:translateY(0)}
+.nav-logo{
+  font-family:'Syne',sans-serif;font-size:18px;font-weight:800;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--white);
+  text-decoration:none;
+}
+.nav-logo span{color:var(--neon)}
+.nav-links{display:flex;gap:40px;list-style:none}
+.nav-links a{
+  font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;
+  transition:color .2s;position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;left:0;bottom:-3px;
+  width:0;height:1px;background:var(--neon);
+  transition:width .3s;
+}
+.nav-links a:hover{color:var(--neon)}
+.nav-links a:hover::after{width:100%}
+.nav-avail{
+  display:flex;align-items:center;gap:8px;
+  font-family:'Syne Mono',monospace;font-size:11px;letter-spacing:.1em;
+  color:var(--neon);
+}
+.avail-dot{width:7px;height:7px;border-radius:50%;background:var(--neon);
+  animation:glow 2s ease-in-out infinite}
+@keyframes glow{
+  0%,100%{box-shadow:0 0 4px var(--neon)}
+  50%{box-shadow:0 0 16px var(--neon),0 0 30px var(--neon)}
+}
+
+/* ══ HERO ══ */
+#hero{
+  height:100vh;position:relative;overflow:hidden;
+  display:flex;align-items:center;
+}
+/* deep parallax bg layers */
+.plx-layer{position:absolute;inset:0;pointer-events:none}
+.plx-grid{
+  background-image:
+    linear-gradient(rgba(184,255,87,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(184,255,87,.03) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+.plx-glow1{
+  background:radial-gradient(ellipse 60% 50% at 75% 35%,rgba(184,255,87,.09) 0%,transparent 70%);
+}
+.plx-glow2{
+  background:radial-gradient(ellipse 50% 60% at 20% 70%,rgba(255,87,184,.07) 0%,transparent 65%);
+}
+.plx-dots{
+  background-image:radial-gradient(circle,rgba(255,255,255,.12) 1px,transparent 1px);
+  background-size:28px 28px;
+  opacity:.4;
+}
+.plx-line-v{
+  position:absolute;right:38%;top:0;bottom:0;width:1px;
+  background:linear-gradient(transparent 0%,rgba(184,255,87,.15) 30%,rgba(184,255,87,.15) 70%,transparent 100%);
+}
+
+.hero-inner{
+  position:relative;z-index:2;
+  width:100%;max-width:1440px;
+  margin:0 auto;padding:0 52px;
+  display:grid;
+  grid-template-columns:55fr 45fr;
+  gap:0;align-items:center;
+  height:100%;
+  overflow:hidden;
+}
+.hero-left{
+  display:flex;flex-direction:column;justify-content:center;
+  padding-right:48px;
+  min-width:0;
+}
+.hero-kicker{
+  font-family:'Syne Mono',monospace;font-size:11px;letter-spacing:.35em;
+  text-transform:uppercase;color:var(--neon);
+  display:flex;align-items:center;gap:14px;margin-bottom:32px;
+  opacity:0;animation:fadeUp .6s 2.1s ease forwards;
+}
+.hero-kicker::before{content:'';width:36px;height:1px;background:var(--neon);flex-shrink:0}
+.hero-h1{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(68px,9vw,130px);line-height:.88;
+  letter-spacing:-.02em;
+  overflow:hidden;
+}
+.h1-word{
+  display:block;transform:translateY(110%);opacity:0;
+  animation:slideWord .8s cubic-bezier(.76,0,.24,1) forwards;
+}
+.h1-word:nth-child(1){animation-delay:2.0s}
+.h1-word:nth-child(2){animation-delay:2.1s;color:var(--neon);-webkit-text-stroke:0px;font-style:italic}
+.h1-word:nth-child(3){animation-delay:2.2s}
+@keyframes slideWord{to{transform:translateY(0);opacity:1}}
+
+.hero-desc{
+  font-size:16px;font-weight:300;color:var(--muted);line-height:1.75;
+  max-width:380px;margin-top:32px;
+  opacity:0;animation:fadeUp .6s 2.4s ease forwards;
+}
+.hero-btns{
+  display:flex;gap:16px;margin-top:40px;
+  opacity:0;animation:fadeUp .6s 2.5s ease forwards;
+}
+.btn-primary{
+  padding:14px 32px;background:var(--neon);color:var(--bg);
+  font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;text-decoration:none;
+  border:none;cursor:none;
+  clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));
+  transition:background .25s,transform .2s,box-shadow .25s;
+}
+.btn-primary:hover{background:#d4ff7a;transform:translateY(-2px);box-shadow:0 12px 36px rgba(184,255,87,.3)}
+.btn-ghost{
+  padding:13px 32px;background:transparent;
+  border:1px solid var(--border);color:var(--txt);
+  font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;text-decoration:none;cursor:none;
+  clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));
+  transition:border-color .25s,color .25s,transform .2s;
+}
+.btn-ghost:hover{border-color:var(--neon);color:var(--neon);transform:translateY(-2px)}
+
+.hero-right{
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  padding:100px 40px 80px;
+  opacity:0;animation:fadeIn .8s 2.1s ease forwards;
+}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+
+/* portrait wrapper — gives room for badge overflow */
+.portrait-wrap{
+  position:relative;
+  margin-top:20px;
+  padding-top:40px;
+  padding-right:30px;
+}
+
+/* portrait card */
+.portrait-card{
+  width:min(300px, 30vw);
+  aspect-ratio:340/480;
+  position:relative;
+  background:var(--panel);
+  border:1px solid rgba(184,255,87,0.3);
+  overflow:hidden;
+  box-shadow:0 0 60px rgba(184,255,87,0.1), 0 30px 80px rgba(0,0,0,0.7);
+}
+.portrait-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(160deg,rgba(184,255,87,.05) 0%,transparent 60%);
+  z-index:3;pointer-events:none;
+}
+.portrait-inner{
+  width:100%;height:100%;overflow:hidden;
+}
+.portrait-svg{width:100%;height:100%;display:block}
+
+/* scan-line overlay */
+.portrait-scan{
+  position:absolute;inset:0;pointer-events:none;z-index:2;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0,0,0,.12) 3px,
+    rgba(0,0,0,.12) 4px
+  );
+}
+.portrait-corner{position:absolute;width:18px;height:18px;z-index:4;}
+.pc-tl{top:0;left:0;border-top:2px solid var(--neon);border-left:2px solid var(--neon)}
+.pc-tr{top:0;right:0;border-top:2px solid var(--neon);border-right:2px solid var(--neon)}
+.pc-bl{bottom:0;left:0;border-bottom:2px solid var(--neon);border-left:2px solid var(--neon)}
+.pc-br{bottom:0;right:0;border-bottom:2px solid var(--neon);border-right:2px solid var(--neon)}
+
+/* badge sits outside the card in the wrapper */
+.portrait-badge{
+  position:absolute;top:0;right:0;z-index:10;
+  width:68px;height:68px;background:var(--neon2);border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:0 8px 28px rgba(255,87,184,.5);
+  animation:floatBadge 3.5s ease-in-out infinite;
+}
+@keyframes floatBadge{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-8px) rotate(4deg)}}
+.badge-num{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:white;line-height:1}
+.badge-lbl{font-family:'Syne Mono',monospace;font-size:8px;letter-spacing:.1em;color:rgba(255,255,255,.8)}
+
+/* floating orbit rings */
+.orbit{
+  position:absolute;border-radius:50%;border:1px solid rgba(184,255,87,.07);
+  pointer-events:none;
+}
+.o1{width:500px;height:500px;top:50%;left:50%;transform:translate(-50%,-50%);animation:spinRing 30s linear infinite}
+.o2{width:360px;height:360px;top:50%;left:50%;transform:translate(-50%,-50%);animation:spinRing 20s linear infinite reverse;border-color:rgba(255,87,184,.05)}
+@keyframes spinRing{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.hero-scroll-hint{
+  position:absolute;bottom:48px;left:52px;
+  display:flex;align-items:center;gap:12px;z-index:3;
+  opacity:0;animation:fadeIn .8s 3s forwards;
+}
+.hs-line{width:48px;height:1px;background:var(--muted)}
+.hs-txt{font-family:'Syne Mono',monospace;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted)}
+
+/* ══ MARQUEE BAR ══ */
+.mq-bar{
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  background:var(--surface);overflow:hidden;padding:0;
+}
+.mq-track{
+  display:flex;width:max-content;gap:0;
+  animation:marquee 28s linear infinite;
+}
+.mq-track:hover{animation-play-state:paused}
+@keyframes marquee{to{transform:translateX(-50%)}}
+.mq-item{
+  display:flex;align-items:center;gap:24px;
+  padding:16px 32px;
+  border-right:1px solid var(--border);
+  font-family:'Syne Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);white-space:nowrap;
+}
+.mq-item span{color:var(--neon);font-size:16px}
+
+/* ══ SECTION DEFAULTS ══ */
+.sec{padding:120px 52px;max-width:1440px;margin:0 auto}
+.sec-full{padding:120px 52px;width:100%}
+.sec-label{
+  font-family:'Syne Mono',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--neon);display:flex;align-items:center;gap:14px;margin-bottom:28px;
+}
+.sec-label::before{content:'';width:32px;height:1px;background:var(--neon);flex-shrink:0}
+.sec-title{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(44px,6vw,80px);line-height:.9;letter-spacing:-.02em;
+}
+.sec-body{
+  font-size:17px;font-weight:300;color:var(--muted);line-height:1.8;
+}
+
+/* ══ ABOUT ══ */
+#about{background:var(--surface)}
+.about-wrap{
+  max-width:1440px;margin:0 auto;padding:120px 52px;
+  display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center;
+}
+.about-vis{position:relative}
+.about-card{
+  background:var(--panel);border:1px solid var(--border);
+  padding:48px;position:relative;overflow:hidden;
+}
+.about-card::after{
+  content:'';position:absolute;top:-1px;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--neon),var(--neon2),var(--neon3));
+}
+.stats-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:var(--border);border:1px solid var(--border);
+  margin-top:32px;
+}
+.stat-cell{
+  background:var(--panel);padding:32px 28px;position:relative;overflow:hidden;
+}
+.stat-cell::before{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:var(--neon);transform:scaleX(0);transform-origin:left;
+  transition:transform .4s cubic-bezier(.23,1,.32,1);
+}
+.stat-cell:hover::before{transform:scaleX(1)}
+.stat-n{
+  font-family:'Syne',sans-serif;font-size:clamp(40px,5vw,64px);font-weight:800;
+  color:var(--neon);line-height:1;
+}
+.stat-l{
+  font-family:'Syne Mono',monospace;font-size:10px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--muted);margin-top:8px;
+}
+.about-text .sec-title{margin-bottom:28px}
+.about-body{font-size:17px;font-weight:300;color:var(--muted);line-height:1.8;margin-bottom:36px}
+.skill-tags{display:flex;flex-wrap:wrap;gap:8px}
+.skill-tag{
+  font-family:'Syne Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  padding:7px 16px;border:1px solid var(--border);color:var(--muted);
+  transition:border-color .2s,color .2s,background .2s;
+}
+.skill-tag:hover{border-color:var(--neon);color:var(--neon);background:rgba(184,255,87,.04)}
+
+/* ══ SERVICES ══ */
+#services{position:relative;background:var(--bg)}
+.services-wrap{
+  max-width:1440px;margin:0 auto;padding:120px 52px;
+}
+.services-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--border);border:1px solid var(--border);
+  margin-top:60px;
+}
+.srv-card{
+  background:var(--panel);padding:40px 32px;position:relative;overflow:hidden;
+  transition:background .3s;
+}
+.srv-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--neon);transform:scaleX(0);transform-origin:left;
+  transition:transform .5s cubic-bezier(.23,1,.32,1);
+}
+.srv-card:hover{background:#0f0f16}
+.srv-card:hover::before{transform:scaleX(1)}
+.srv-card:nth-child(2)::before{background:var(--neon2)}
+.srv-card:nth-child(3)::before{background:var(--neon3)}
+.srv-card:nth-child(4)::before{background:linear-gradient(90deg,var(--neon),var(--neon2))}
+.srv-num{
+  font-family:'Syne Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--border);
+  margin-bottom:32px;
+}
+.srv-icon{font-size:36px;margin-bottom:24px;display:block;line-height:1}
+.srv-title{
+  font-family:'Syne',sans-serif;font-size:22px;font-weight:700;
+  margin-bottom:16px;letter-spacing:-.01em;
+}
+.srv-desc{font-size:14px;font-weight:300;color:var(--muted);line-height:1.75}
+.srv-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:24px}
+.srv-tag{
+  font-family:'Syne Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);border:1px solid rgba(255,255,255,.06);padding:4px 10px;
+}
+
+/* ══ WORKS PARALLAX ══ */
+#works{background:var(--bg);overflow:hidden}
+.works-header-wrap{
+  max-width:1440px;margin:0 auto;padding:120px 52px 60px;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap;
+}
+.works-big-title{
+  font-family:'Syne',sans-serif;font-size:clamp(56px,9vw,120px);
+  font-weight:800;line-height:.85;letter-spacing:-.03em;
+}
+.works-big-title em{
+  display:block;color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,.25);font-style:normal;
+}
+.works-sub{max-width:320px;font-size:16px;font-weight:300;color:var(--muted);line-height:1.7}
+
+/* MARQUEE of works thumbnails – two rows */
+.works-rows{padding-bottom:80px;display:flex;flex-direction:column;gap:16px}
+.works-row{display:flex;gap:16px;width:max-content;padding:0 52px}
+.works-row.r1{animation:marquee 40s linear infinite}
+.works-row.r2{animation:marquee 35s linear infinite reverse}
+.work-thumb{
+  width:300px;height:200px;flex-shrink:0;position:relative;overflow:hidden;
+  border:1px solid var(--border);
+  transition:transform .4s cubic-bezier(.23,1,.32,1),border-color .3s;
+}
+.work-thumb:hover{transform:scale(1.03) translateY(-4px);border-color:var(--neon)}
+.wt-bg{
+  position:absolute;inset:0;transition:transform .6s cubic-bezier(.23,1,.32,1);
+}
+.work-thumb:hover .wt-bg{transform:scale(1.08)}
+.wt-noise{
+  position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:120px;opacity:.06;
+}
+.wt-label{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:40px 16px 16px;
+  background:linear-gradient(transparent,rgba(0,0,0,.8));
+  opacity:0;transform:translateY(8px);
+  transition:opacity .3s,transform .3s;
+}
+.work-thumb:hover .wt-label{opacity:1;transform:translateY(0)}
+.wt-cat{
+  font-family:'Syne Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--neon);margin-bottom:4px;
+}
+.wt-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:white}
+/* colors */
+.c1{background:linear-gradient(135deg,#0d1a00,#1a3300,#2d5500)}
+.c2{background:linear-gradient(135deg,#001020,#002040,#003566)}
+.c3{background:linear-gradient(135deg,#1a0020,#330040,#55006b)}
+.c4{background:linear-gradient(135deg,#200010,#400020,#660035)}
+.c5{background:linear-gradient(135deg,#0a1a1a,#0d3030,#104848)}
+.c6{background:linear-gradient(135deg,#1a1000,#332000,#553500)}
+.c7{background:linear-gradient(135deg,#001a10,#003322,#005535)}
+.c8{background:linear-gradient(135deg,#100020,#200040,#350066)}
+.c9{background:linear-gradient(135deg,#1a0a00,#331500,#552200)}
+.c10{background:linear-gradient(135deg,#001018,#002030,#00354d)}
+.c11{background:linear-gradient(135deg,#12001a,#250035,#3a0055)}
+.c12{background:linear-gradient(135deg,#001a08,#003315,#005522)}
+
+/* ══ BANNER SECTION ══ */
+#banners{background:var(--surface);overflow:hidden;padding:80px 0}
+.banners-header{
+  max-width:1440px;margin:0 auto;padding:0 52px 60px;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;
+}
+.banner-mq-wrap{overflow:hidden}
+.banner-mq{
+  display:flex;gap:16px;width:max-content;
+  animation:marquee 32s linear infinite;
+}
+.banner-mq:hover{animation-play-state:paused}
+.b-card{
+  width:360px;height:230px;flex-shrink:0;
+  background:var(--panel);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne Mono',monospace;font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:rgba(255,255,255,.2);
+  position:relative;overflow:hidden;
+  transition:border-color .3s;
+}
+.b-card:hover{border-color:rgba(184,255,87,.3)}
+.b-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent 40%,rgba(184,255,87,.04));
+}
+.b-bg1{background:linear-gradient(135deg,#150a2a,#2d1560)}
+.b-bg2{background:linear-gradient(135deg,#0a1520,#153060)}
+.b-bg3{background:linear-gradient(135deg,#0a1a0d,#153520)}
+.b-bg4{background:linear-gradient(135deg,#2a0a0a,#601515)}
+.b-bg5{background:linear-gradient(135deg,#1a150a,#352a10)}
+.b-bg6{background:linear-gradient(135deg,#0a1a20,#103540)}
+
+/* ══ CONTACT ══ */
+#contact{background:var(--bg);position:relative;overflow:hidden}
+.contact-bg-txt{
+  position:absolute;right:-2%;top:50%;transform:translateY(-50%);
+  font-family:'Syne',sans-serif;font-size:clamp(80px,18vw,260px);font-weight:800;
+  color:rgba(184,255,87,.03);letter-spacing:.05em;pointer-events:none;line-height:1;
+  white-space:nowrap;
+}
+.contact-wrap{
+  max-width:1440px;margin:0 auto;padding:120px 52px;
+  display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center;
+  position:relative;z-index:1;
+}
+.contact-left .sec-title{margin-bottom:24px}
+.contact-txt{font-size:17px;font-weight:300;color:var(--muted);line-height:1.8;margin-bottom:44px}
+.contact-socials{display:flex;gap:12px;flex-wrap:wrap}
+.c-soc{
+  display:flex;align-items:center;gap:8px;
+  font-family:'Syne Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;
+  border:1px solid var(--border);padding:11px 20px;
+  transition:color .2s,border-color .2s,background .2s;
+}
+.c-soc:hover{color:var(--neon);border-color:var(--neon);background:rgba(184,255,87,.04)}
+.c-soc svg{width:14px;height:14px}
+/* form */
+.cf{display:flex;flex-direction:column;gap:0}
+.cf-row{
+  position:relative;border-bottom:1px solid var(--border);
+  margin-bottom:4px;transition:border-color .3s;
+}
+.cf-row:focus-within{border-color:var(--neon)}
+.cf-lbl{
+  display:block;font-family:'Syne Mono',monospace;font-size:9px;letter-spacing:.25em;
+  text-transform:uppercase;color:var(--neon);padding-top:20px;padding-left:0;
+}
+.cf-inp{
+  width:100%;background:transparent;border:none;outline:none;
+  font-family:'Syne',sans-serif;font-size:20px;font-weight:400;
+  color:var(--txt);padding:10px 0 18px;
+}
+.cf-inp::placeholder{color:rgba(255,255,255,.12);font-weight:300}
+.cf-bottom-line{
+  position:absolute;bottom:-1px;left:0;width:0;height:1px;
+  background:var(--neon);transition:width .4s cubic-bezier(.23,1,.32,1);
+}
+.cf-row:focus-within .cf-bottom-line{width:100%}
+.cf-submit{
+  margin-top:32px;padding:18px 40px;
+  background:var(--neon);color:var(--bg);border:none;
+  font-family:'Syne',sans-serif;font-size:14px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  cursor:none;align-self:flex-start;
+  clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));
+  transition:background .25s,transform .2s,box-shadow .25s;
+}
+.cf-submit:hover{background:#d4ff7a;transform:translateY(-2px);box-shadow:0 12px 36px rgba(184,255,87,.3)}
+
+/* ══ FOOTER ══ */
+footer{
+  border-top:1px solid var(--border);
+  background:var(--surface);padding:48px 52px 40px;
+}
+.footer-inner{
+  max-width:1440px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:32px;
+  margin-bottom:36px;
+}
+.f-logo{
+  font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,48px);font-weight:800;
+  letter-spacing:-.02em;color:var(--white);line-height:1;
+}
+.f-logo span{color:var(--neon)}
+.f-email{font-size:15px;font-weight:300;color:var(--muted)}
+.f-email a{color:var(--neon);text-decoration:none;font-family:'Syne Mono',monospace;font-size:13px;transition:opacity .2s}
+.f-email a:hover{opacity:.7}
+.f-socials{display:flex;gap:12px}
+.f-soc{
+  width:40px;height:40px;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--muted);text-decoration:none;
+  transition:border-color .2s,color .2s,background .2s;
+}
+.f-soc:hover{border-color:var(--neon);color:var(--neon);background:rgba(184,255,87,.05)}
+.footer-bottom{
+  max-width:1440px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+  padding-top:28px;border-top:1px solid var(--border);
+}
+.f-copy{font-family:'Syne Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.2)}
+.f-made{font-family:'Syne Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(184,255,87,.4)}
+
+/* ══ SCROLL REVEAL ══ */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .9s cubic-bezier(.23,1,.32,1),transform .9s cubic-bezier(.23,1,.32,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal-x{opacity:0;transform:translateX(-40px);transition:opacity .9s cubic-bezier(.23,1,.32,1),transform .9s cubic-bezier(.23,1,.32,1)}
+.reveal-x.in{opacity:1;transform:translateX(0)}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:1100px){
+  .services-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:900px){
+  nav{padding:18px 24px}
+  .hero-inner,.about-wrap,.contact-wrap{grid-template-columns:1fr}
+  .hero-right{justify-content:flex-start;padding-top:40px}
+  .portrait-card{width:300px;height:424px}
+  .about-wrap,.contact-wrap{padding:80px 24px;gap:48px}
+  .works-header-wrap,.services-wrap,.banners-header{padding:80px 24px 40px}
+  .sec{padding:80px 24px}
+  .works-rows{padding-bottom:40px}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  footer{padding:40px 24px}
+}
+@media(max-width:600px){
+  nav{padding:16px 20px}
+  .nav-links{display:none}
+  .hero-inner{padding:0 24px}
+  .hero-h1{font-size:clamp(52px,14vw,90px)}
+  .portrait-card{width:260px;height:370px}
+  .services-grid{grid-template-columns:1fr}
+  .banners-header{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="dot"></div>
+<div id="ring"></div>
+<div id="pbar"></div>
+
+<!-- LOADER -->
+<div id="ldr">
+  <div class="ldr-ring"></div>
+  <div class="ldr-bar-wrap"><div class="ldr-bar" id="ldrBar"></div></div>
+  <div class="ldr-pct" id="ldrPct">0%</div>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a class="nav-logo" href="#hero">GORIFY<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#works">Works</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-avail"><div class="avail-dot"></div>Available for Projects</div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="plx-layer plx-grid" data-depth="0.05"></div>
+  <div class="plx-layer plx-dots" data-depth="0.08"></div>
+  <div class="plx-layer plx-glow1" data-depth="0.12"></div>
+  <div class="plx-layer plx-glow2" data-depth="-0.08"></div>
+  <div class="plx-line-v"></div>
+
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-kicker">India-Based Designer</div>
+      <div class="hero-h1">
+        <span class="h1-word">GRAPHIC</span>
+        <span class="h1-word">Design</span>
+        <span class="h1-word">STUDIO</span>
+      </div>
+      <p class="hero-desc">I'm Deepika Bansal — creating bold, meaningful, and visually compelling designs that speak louder than words.</p>
+      <div class="hero-btns">
+        <a href="#works" class="btn-primary">View My Work</a>
+        <a href="#contact" class="btn-ghost">Hire Me</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="orbit o1"></div>
+      <div class="orbit o2"></div>
+      <div class="portrait-card" id="tiltCard">
+        <div class="portrait-inner">
+          <svg class="portrait-svg" viewBox="0 0 340 480" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <!-- Background gradient -->
+              <linearGradient id="bgG" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#0c1400"/>
+                <stop offset="100%" stop-color="#060a00"/>
+              </linearGradient>
+              <!-- Skin tone -->
+              <radialGradient id="skinG" cx="50%" cy="35%" r="60%">
+                <stop offset="0%" stop-color="#f5c89a"/>
+                <stop offset="100%" stop-color="#d4875a"/>
+              </radialGradient>
+              <!-- Skin shadow for depth -->
+              <radialGradient id="skinShadow" cx="50%" cy="70%" r="50%">
+                <stop offset="0%" stop-color="rgba(180,100,50,0.3)"/>
+                <stop offset="100%" stop-color="transparent"/>
+              </radialGradient>
+              <!-- Hair -->
+              <linearGradient id="hairG" x1="0" y1="0" x2="0.3" y2="1">
+                <stop offset="0%" stop-color="#3a1a08"/>
+                <stop offset="100%" stop-color="#0d0603"/>
+              </linearGradient>
+              <!-- Outfit neon green -->
+              <linearGradient id="clothG" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#c8ff70"/>
+                <stop offset="50%" stop-color="#8ed430"/>
+                <stop offset="100%" stop-color="#5a9010"/>
+              </linearGradient>
+              <!-- Background glow halo -->
+              <radialGradient id="haloG" cx="50%" cy="40%" r="45%">
+                <stop offset="0%" stop-color="rgba(184,255,87,0.12)"/>
+                <stop offset="100%" stop-color="transparent"/>
+              </radialGradient>
+              <!-- Cheek blush -->
+              <radialGradient id="blushL" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="rgba(220,120,80,0.35)"/>
+                <stop offset="100%" stop-color="transparent"/>
+              </radialGradient>
+              <radialGradient id="blushR" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="rgba(220,120,80,0.35)"/>
+                <stop offset="100%" stop-color="transparent"/>
+              </radialGradient>
+            </defs>
+
+            <!-- ── BACKGROUND ── -->
+            <rect width="340" height="480" fill="url(#bgG)"/>
+            <!-- subtle grid -->
+            <line x1="0" y1="96" x2="340" y2="96" stroke="rgba(184,255,87,0.05)" stroke-width="1"/>
+            <line x1="0" y1="192" x2="340" y2="192" stroke="rgba(184,255,87,0.05)" stroke-width="1"/>
+            <line x1="0" y1="288" x2="340" y2="288" stroke="rgba(184,255,87,0.05)" stroke-width="1"/>
+            <line x1="0" y1="384" x2="340" y2="384" stroke="rgba(184,255,87,0.05)" stroke-width="1"/>
+            <line x1="85" y1="0" x2="85" y2="480" stroke="rgba(184,255,87,0.05)" stroke-width="1"/>
+            <line x1="170" y1="0" x2="170" y2="480" stroke="rgba(184,255,87,0.05)" stroke-width="1"/>
+            <line x1="255" y1="0" x2="255" y2="480" stroke="rgba(184,255,87,0.05)" stroke-width="1"/>
+            <!-- halo glow behind figure -->
+            <ellipse cx="170" cy="190" rx="140" ry="150" fill="url(#haloG)"/>
+
+            <!-- ── BODY / OUTFIT ── -->
+            <!-- Shoulders & torso -->
+            <path d="M30 480 Q28 390 80 360 Q115 342 170 340 Q225 342 260 360 Q312 390 310 480Z"
+                  fill="url(#clothG)" opacity="0.95"/>
+            <!-- Outfit neckline V -->
+            <path d="M140 360 Q170 390 200 360" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+            <!-- Outfit collar shine -->
+            <path d="M125 355 Q170 380 215 355" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3"/>
+
+            <!-- ── NECK ── -->
+            <rect x="152" y="312" width="36" height="50" rx="18" fill="url(#skinG)"/>
+            <!-- neck shadow -->
+            <rect x="152" y="342" width="36" height="20" rx="10" fill="rgba(160,80,40,0.25)"/>
+
+            <!-- ── HAIR BACK (behind head) ── -->
+            <!-- Long hair flowing behind -->
+            <path d="M92 175 Q70 260 75 370 Q90 380 105 360 Q100 270 108 195Z"
+                  fill="url(#hairG)"/>
+            <path d="M248 175 Q270 260 265 370 Q250 380 235 360 Q240 270 232 195Z"
+                  fill="url(#hairG)"/>
+            <!-- hair volume at back top -->
+            <path d="M100 170 Q98 100 170 88 Q242 100 240 170 Q235 110 170 105 Q105 110 100 170Z"
+                  fill="url(#hairG)"/>
+
+            <!-- ── HEAD (face) ── -->
+            <ellipse cx="170" cy="205" rx="78" ry="88" fill="url(#skinG)"/>
+            <!-- Skin depth shadow overlay -->
+            <ellipse cx="170" cy="220" rx="78" ry="88" fill="url(#skinShadow)"/>
+
+            <!-- ── HAIR FRONT (over head edges) ── -->
+            <!-- Top hair parting -->
+            <path d="M100 178 Q98 110 170 96 Q242 110 240 178 Q232 125 170 118 Q108 125 100 178Z"
+                  fill="url(#hairG)"/>
+            <!-- Side wisps left -->
+            <path d="M95 195 Q86 215 88 240 Q96 235 100 210Z" fill="url(#hairG)"/>
+            <!-- Side wisps right -->
+            <path d="M245 195 Q254 215 252 240 Q244 235 240 210Z" fill="url(#hairG)"/>
+
+            <!-- ── EARS ── -->
+            <ellipse cx="94" cy="215" rx="11" ry="14" fill="#e8a070"/>
+            <ellipse cx="246" cy="215" rx="11" ry="14" fill="#e8a070"/>
+            <!-- ear inner -->
+            <ellipse cx="94" cy="215" rx="6" ry="8" fill="rgba(180,90,50,0.4)"/>
+            <ellipse cx="246" cy="215" rx="6" ry="8" fill="rgba(180,90,50,0.4)"/>
+
+            <!-- ── EARRINGS (neon) ── -->
+            <circle cx="94" cy="230" r="8" fill="none" stroke="#b8ff57" stroke-width="2"/>
+            <circle cx="94" cy="230" r="4" fill="#b8ff57"/>
+            <circle cx="94" cy="230" r="8" fill="none" stroke="#b8ff57" stroke-width="6" opacity="0.15"/>
+            <circle cx="246" cy="230" r="8" fill="none" stroke="#b8ff57" stroke-width="2"/>
+            <circle cx="246" cy="230" r="4" fill="#b8ff57"/>
+            <circle cx="246" cy="230" r="8" fill="none" stroke="#b8ff57" stroke-width="6" opacity="0.15"/>
+
+            <!-- ── CHEEKS blush ── -->
+            <ellipse cx="122" cy="228" rx="22" ry="14" fill="url(#blushL)"/>
+            <ellipse cx="218" cy="228" rx="22" ry="14" fill="url(#blushR)"/>
+
+            <!-- ── EYEBROWS ── -->
+            <path d="M130 179 Q148 170 164 176" stroke="#2a1008" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M176 176 Q192 170 210 179" stroke="#2a1008" stroke-width="4" fill="none" stroke-linecap="round"/>
+
+            <!-- ── EYES ── -->
+            <!-- Left eye socket shadow -->
+            <ellipse cx="147" cy="200" rx="22" ry="16" fill="rgba(160,80,40,0.12)"/>
+            <!-- Right eye socket shadow -->
+            <ellipse cx="193" cy="200" rx="22" ry="16" fill="rgba(160,80,40,0.12)"/>
+            <!-- Left eye white -->
+            <ellipse cx="147" cy="200" rx="19" ry="13" fill="#f8f8f8"/>
+            <!-- Right eye white -->
+            <ellipse cx="193" cy="200" rx="19" ry="13" fill="#f8f8f8"/>
+            <!-- Left iris -->
+            <circle cx="149" cy="201" r="10" fill="#1e0c04"/>
+            <!-- Right iris -->
+            <circle cx="195" cy="201" r="10" fill="#1e0c04"/>
+            <!-- Iris color ring -->
+            <circle cx="149" cy="201" r="10" fill="none" stroke="#4a2010" stroke-width="2"/>
+            <circle cx="195" cy="201" r="10" fill="none" stroke="#4a2010" stroke-width="2"/>
+            <!-- Neon iris glow -->
+            <circle cx="149" cy="201" r="10" fill="none" stroke="rgba(184,255,87,0.2)" stroke-width="1.5"/>
+            <circle cx="195" cy="201" r="10" fill="none" stroke="rgba(184,255,87,0.2)" stroke-width="1.5"/>
+            <!-- Pupils -->
+            <circle cx="150" cy="202" r="5.5" fill="#050200"/>
+            <circle cx="196" cy="202" r="5.5" fill="#050200"/>
+            <!-- Eye highlights -->
+            <circle cx="153" cy="198" r="3" fill="white"/>
+            <circle cx="199" cy="198" r="3" fill="white"/>
+            <circle cx="145" cy="204" r="1.5" fill="rgba(255,255,255,0.5)"/>
+            <circle cx="191" cy="204" r="1.5" fill="rgba(255,255,255,0.5)"/>
+            <!-- Upper eyelid line -->
+            <path d="M128 194 Q147 188 166 194" stroke="#2a1008" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M174 194 Q193 188 212 194" stroke="#2a1008" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- Lower eyelid subtle -->
+            <path d="M130 207 Q147 212 166 207" stroke="rgba(180,90,50,0.35)" stroke-width="1.5" fill="none"/>
+            <path d="M174 207 Q193 212 212 207" stroke="rgba(180,90,50,0.35)" stroke-width="1.5" fill="none"/>
+
+            <!-- ── NOSE ── -->
+            <path d="M163 215 Q158 230 160 238 Q165 244 170 244 Q175 244 180 238 Q182 230 177 215"
+                  stroke="#c07848" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <!-- nostrils -->
+            <ellipse cx="162" cy="239" rx="5" ry="3" fill="rgba(160,80,40,0.25)"/>
+            <ellipse cx="178" cy="239" rx="5" ry="3" fill="rgba(160,80,40,0.25)"/>
+
+            <!-- ── LIPS ── -->
+            <!-- Upper lip -->
+            <path d="M148 258 Q158 252 170 254 Q182 252 192 258 Q182 262 170 263 Q158 262 148 258Z"
+                  fill="#c05848"/>
+            <!-- Cupid's bow -->
+            <path d="M148 258 Q159 252 170 255 Q181 252 192 258"
+                  fill="none" stroke="#a04038" stroke-width="1.5"/>
+            <!-- Lower lip -->
+            <path d="M148 258 Q159 276 170 278 Q181 276 192 258 Q182 262 170 264 Q158 262 148 258Z"
+                  fill="#d06858"/>
+            <!-- Lip highlight -->
+            <ellipse cx="170" cy="268" rx="12" ry="4" fill="rgba(255,200,180,0.2)"/>
+            <!-- Smile crease -->
+            <path d="M148 258 Q144 265 147 272" stroke="rgba(160,80,40,0.3)" stroke-width="1.5" fill="none"/>
+            <path d="M192 258 Q196 265 193 272" stroke="rgba(160,80,40,0.3)" stroke-width="1.5" fill="none"/>
+
+            <!-- ── BINDI (neon) ── -->
+            <circle cx="170" cy="174" r="9" fill="rgba(184,255,87,0.2)"/>
+            <circle cx="170" cy="174" r="6" fill="#b8ff57" opacity="0.95"/>
+            <circle cx="170" cy="174" r="3" fill="white"/>
+            <!-- bindi glow pulse ring -->
+            <circle cx="170" cy="174" r="12" fill="none" stroke="rgba(184,255,87,0.5)" stroke-width="1"/>
+            <circle cx="170" cy="174" r="16" fill="none" stroke="rgba(184,255,87,0.2)" stroke-width="1"/>
+
+            <!-- ── NECKLACE ── -->
+            <path d="M138 345 Q170 370 202 345" fill="none" stroke="rgba(184,255,87,0.6)" stroke-width="1.5"/>
+            <circle cx="170" cy="368" r="4" fill="#b8ff57" opacity="0.7"/>
+            <circle cx="152" cy="353" r="2.5" fill="rgba(184,255,87,0.5)"/>
+            <circle cx="188" cy="353" r="2.5" fill="rgba(184,255,87,0.5)"/>
+
+            <!-- ── LABEL BAR ── -->
+            <rect x="0" y="425" width="340" height="55" fill="rgba(0,0,0,0.72)"/>
+            <rect x="0" y="425" width="340" height="2" fill="#b8ff57"/>
+            <text x="170" y="452" text-anchor="middle"
+                  font-family="'Syne Mono',monospace" font-size="14"
+                  fill="#b8ff57" letter-spacing="4">DEEPIKA BANSAL</text>
+            <text x="170" y="470" text-anchor="middle"
+                  font-family="'Syne Mono',monospace" font-size="9"
+                  fill="rgba(255,255,255,0.4)" letter-spacing="3">GRAPHIC DESIGNER</text>
+
+            <!-- ── CORNER BRACKETS ── -->
+            <polyline points="0,30 0,0 30,0" fill="none" stroke="#b8ff57" stroke-width="2" opacity="0.7"/>
+            <polyline points="310,0 340,0 340,30" fill="none" stroke="#b8ff57" stroke-width="2" opacity="0.7"/>
+            <polyline points="0,450 0,480 30,480" fill="none" stroke="#b8ff57" stroke-width="2" opacity="0.7"/>
+            <polyline points="310,480 340,480 340,450" fill="none" stroke="#b8ff57" stroke-width="2" opacity="0.7"/>
+          </svg>
+        </div>
+        <div class="portrait-scan"></div>
+        <div class="portrait-corner pc-tl"></div>
+        <div class="portrait-corner pc-tr"></div>
+        <div class="portrait-corner pc-bl"></div>
+        <div class="portrait-corner pc-br"></div>
+        <div class="portrait-badge">
+          <div class="badge-num">3+</div>
+          <div class="badge-lbl">Years</div>
+        </div>
+        <div class="portrait-tag">Available for Work</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll-hint">
+    <div class="hs-line"></div>
+    <span class="hs-txt">Scroll Down</span>
+  </div>
+</section>
+
+<!-- ══ MARQUEE BAR ══ -->
+<div class="mq-bar">
+  <div class="mq-track">
+    <div class="mq-item">Brand Identity <span>✦</span></div>
+    <div class="mq-item">Social Media <span>✦</span></div>
+    <div class="mq-item">Poster Design <span>✦</span></div>
+    <div class="mq-item">Packaging <span>✦</span></div>
+    <div class="mq-item">Typography <span>✦</span></div>
+    <div class="mq-item">Print Design <span>✦</span></div>
+    <div class="mq-item">Visual Identity <span>✦</span></div>
+    <div class="mq-item">Brand Identity <span>✦</span></div>
+    <div class="mq-item">Social Media <span>✦</span></div>
+    <div class="mq-item">Poster Design <span>✦</span></div>
+    <div class="mq-item">Packaging <span>✦</span></div>
+    <div class="mq-item">Typography <span>✦</span></div>
+    <div class="mq-item">Print Design <span>✦</span></div>
+    <div class="mq-item">Visual Identity <span>✦</span></div>
+  </div>
+</div>
+
+<!-- ══ ABOUT ══ -->
+<div id="about">
+  <div class="about-wrap">
+    <div class="about-vis reveal-x">
+      <div class="about-card">
+        <div class="sec-label">WHO I AM</div>
+        <h2 class="sec-title" style="font-size:clamp(36px,4vw,56px);margin-bottom:20px">Deepika<br>Bansal</h2>
+        <p style="font-size:15px;font-weight:300;color:var(--muted);line-height:1.8">India-based graphic designer crafting bold visual stories for brands that want to stand out. From scrollable social content to print that demands a second look.</p>
+        <div class="stats-grid">
+          <div class="stat-cell">
+            <div class="stat-n" data-target="3">0</div>
+            <div class="stat-l">Years Active</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-n" data-target="550">0</div>
+            <div class="stat-l">Projects Done</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-n" data-target="40">0</div>
+            <div class="stat-l">Happy Clients</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-n">∞</div>
+            <div class="stat-l">Ideas Generated</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-text reveal" style="transition-delay:.15s">
+      <div class="sec-label">About Me</div>
+      <h2 class="sec-title">Designing<br>with Intent</h2>
+      <p class="about-body" style="margin-top:24px">Every design I create is rooted in purpose. I believe in visuals that don't just look good — they communicate, convert, and connect. Whether it's a single social post or a complete brand overhaul, I bring the same level of craft and intention.</p>
+      <p class="about-body">Based in India, working globally — from cafés to clothing brands, travel startups to product companies.</p>
+      <div class="skill-tags" style="margin-top:32px">
+        <span class="skill-tag">Adobe Illustrator</span>
+        <span class="skill-tag">Photoshop</span>
+        <span class="skill-tag">Figma</span>
+        <span class="skill-tag">Canva Pro</span>
+        <span class="skill-tag">InDesign</span>
+        <span class="skill-tag">After Effects</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SERVICES ══ -->
+<div id="services">
+  <div class="services-wrap">
+    <div class="reveal" style="display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap">
+      <div>
+        <div class="sec-label">What I Offer</div>
+        <h2 class="sec-title">My<br>Services</h2>
+      </div>
+      <p class="sec-body" style="max-width:380px;padding-bottom:8px">Design solutions built to make your brand impossible to ignore — online and in print.</p>
+    </div>
+    <div class="services-grid">
+      <div class="srv-card reveal" style="transition-delay:0s">
+        <div class="srv-num">01</div>
+        <span class="srv-icon">⬡</span>
+        <h3 class="srv-title">Branding & Identity</h3>
+        <p class="srv-desc">Logo systems, brand guidelines, color palettes, and visual languages that make your brand immediately recognizable.</p>
+        <div class="srv-tags"><span class="srv-tag">Logo</span><span class="srv-tag">Guidelines</span><span class="srv-tag">Typography</span></div>
+      </div>
+      <div class="srv-card reveal" style="transition-delay:.08s">
+        <div class="srv-num">02</div>
+        <span class="srv-icon">◈</span>
+        <h3 class="srv-title">Social Media Design</h3>
+        <p class="srv-desc">Scroll-stopping posts, stories, reels covers, and full campaign kits designed for maximum engagement.</p>
+        <div class="srv-tags"><span class="srv-tag">Posts</span><span class="srv-tag">Stories</span><span class="srv-tag">Reels</span></div>
+      </div>
+      <div class="srv-card reveal" style="transition-delay:.16s">
+        <div class="srv-num">03</div>
+        <span class="srv-icon">▣</span>
+        <h3 class="srv-title">Print & Banners</h3>
+        <p class="srv-desc">Eye-catching banners, posters, menus, and promotional materials that work as hard offline as they do online.</p>
+        <div class="srv-tags"><span class="srv-tag">Banners</span><span class="srv-tag">Posters</span><span class="srv-tag">Menus</span></div>
+      </div>
+      <div class="srv-card reveal" style="transition-delay:.24s">
+        <div class="srv-num">04</div>
+        <span class="srv-icon">◉</span>
+        <h3 class="srv-title">Product & Packaging</h3>
+        <p class="srv-desc">Product visuals, packaging design, and e-commerce graphics that elevate what's inside the box.</p>
+        <div class="srv-tags"><span class="srv-tag">Packaging</span><span class="srv-tag">Labels</span><span class="srv-tag">Mockups</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ WORKS ══ -->
+<div id="works">
+  <div class="works-header-wrap reveal">
+    <div class="works-big-title">
+      SELECTED<br><em>WORKS</em>
+    </div>
+    <p class="works-sub">A curated showcase across food, fashion, travel and product design — all real projects, all built to perform.</p>
+  </div>
+  <div class="works-rows">
+    <!-- Row 1 -->
+    <div class="works-row r1">
+      <div class="work-thumb"><div class="wt-bg c1"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Food</div><div class="wt-name">Café Social Post 01</div></div></div>
+      <div class="work-thumb"><div class="wt-bg c2"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Travel</div><div class="wt-name">Wanderlust Series</div></div></div>
+      <div class="work-thumb"><div class="wt-bg c3"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Clothing</div><div class="wt-name">Fashion Drop Campaign</div></div></div>
+      <div class="work-thumb"><div class="wt-bg c4"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Product</div><div class="wt-name">Brand Packaging</div></div></div>
+      <div class="work-thumb"><div class="wt-bg c5"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Food</div><div class="wt-name">Restaurant Menu Design</div></div></div>
+      <div class="work-thumb"><div class="wt-bg c6"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Travel</div><div class="wt-name">Destination Poster</div></div></div>
+      <!-- duplicate -->
+      <div class="work-thumb"><div class="wt-bg c1"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Food</div><div class="wt-name">Café Social Post 01</div></div></div>
+      <div class="work-thumb"><div class="wt-bg c2"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Travel</div><div class="wt-name">Wanderlust Series</div></div></div>
+      <div class="work-thumb"><div class="wt-bg c3"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Clothing</div><div class="wt-name">Fashion Drop Campaign</div></div></div>
+      <div class="work-thumb"><div class="wt-bg c4"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Product</div><div class="wt-name">Brand Packaging</div></div></div>
+      <div class="work-thumb"><div class="wt-bg c5"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Food</div><div class="wt-name">Restaurant Menu Design</div></div></div>
+      <div class="work-thumb"><div class="wt-bg c6"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Travel</div><div class="wt-name">Destination Poster</div></div></div>
+    </div>
+    <!-- Row 2 -->
+    <div class="works-row r2">
+      <div class="work-thumb"><div class="wt-bg c7"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Clothing</div><div class="wt-name">Streetwear Collection</div></div></div>
+      <div class="work-thumb"><div class="wt-bg c8"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Product</div><div class="wt-name">Skincare Brand Kit</div></div></div>
+      <div class="work-thumb"><div class="wt-bg c9"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Food</div><div class="wt-name">Bakery Identity System</div></div></div>
+      <div class="work-thumb"><div class="wt-bg c10"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Travel</div><div class="wt-name">City Guide Series</div></div></div>
+      <div class="work-thumb"><div class="wt-bg c11"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Branding</div><div class="wt-name">Startup Visual Identity</div></div></div>
+      <div class="work-thumb"><div class="wt-bg c12"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Social</div><div class="wt-name">Campaign Launch Kit</div></div></div>
+      <!-- duplicate -->
+      <div class="work-thumb"><div class="wt-bg c7"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Clothing</div><div class="wt-name">Streetwear Collection</div></div></div>
+      <div class="work-thumb"><div class="wt-bg c8"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Product</div><div class="wt-name">Skincare Brand Kit</div></div></div>
+      <div class="work-thumb"><div class="wt-bg c9"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Food</div><div class="wt-name">Bakery Identity System</div></div></div>
+      <div class="work-thumb"><div class="wt-bg c10"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Travel</div><div class="wt-name">City Guide Series</div></div></div>
+      <div class="work-thumb"><div class="wt-bg c11"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Branding</div><div class="wt-name">Startup Visual Identity</div></div></div>
+      <div class="work-thumb"><div class="wt-bg c12"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Social</div><div class="wt-name">Campaign Launch Kit</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BANNERS SECTION ══ -->
+<div id="banners">
+  <div class="banners-header">
+    <div class="reveal-x">
+      <div class="sec-label">Banner Designs</div>
+      <h2 class="sec-title">Big Designs,<br>Bold Messages</h2>
+    </div>
+    <p class="sec-body reveal" style="transition-delay:.1s;max-width:380px">Vibrant banner series created for cafés and restaurants — promoting offers, menus, and seasonal specials with maximum visual impact.</p>
+  </div>
+  <div class="banner-mq-wrap" style="padding:0 52px">
+    <div class="banner-mq">
+      <div class="b-card b-bg1">Café Banner 01</div>
+      <div class="b-card b-bg2">Café Banner 02</div>
+      <div class="b-card b-bg3">Café Banner 03</div>
+      <div class="b-card b-bg4">Café Banner 04</div>
+      <div class="b-card b-bg5">Café Banner 05</div>
+      <div class="b-card b-bg6">Café Banner 06</div>
+      <div class="b-card b-bg1">Café Banner 01</div>
+      <div class="b-card b-bg2">Café Banner 02</div>
+      <div class="b-card b-bg3">Café Banner 03</div>
+      <div class="b-card b-bg4">Café Banner 04</div>
+      <div class="b-card b-bg5">Café Banner 05</div>
+      <div class="b-card b-bg6">Café Banner 06</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CONTACT ══ -->
+<div id="contact">
+  <div class="contact-bg-txt">HELLO</div>
+  <div class="contact-wrap">
+    <div class="contact-left reveal-x">
+      <div class="sec-label">Get In Touch</div>
+      <h2 class="sec-title">Let's Build<br><span style="color:var(--neon)">Something</span><br>Bold</h2>
+      <p class="contact-txt">Got a project in mind? Whether it's a full rebrand or a single poster — I'd love to hear about it. Let's make something worth remembering.</p>
+      <p style="font-family:'Syne Mono',monospace;font-size:12px;letter-spacing:.1em;color:var(--muted);margin-bottom:28px">📧 gorifydesign@gmail.com</p>
+      <div class="contact-socials">
+        <a href="https://www.instagram.com/gorify_design" class="c-soc" target="_blank" rel="noopener">
+          <svg viewBox="0 0 256 256" fill="currentColor"><path d="M176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24ZM128,176a48,48,0,1,1,48-48A48.05,48.05,0,0,1,128,176Zm60-96a12,12,0,1,1,12-12A12,12,0,0,1,188,80Zm-28,48a32,32,0,1,1-32-32A32,32,0,0,1,160,128Z"/></svg>
+          Instagram
+        </a>
+        <a href="https://www.linkedin.com/in/deepikabansal16" class="c-soc" target="_blank" rel="noopener">
+          <svg viewBox="0 0 256 256" fill="currentColor"><path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24ZM96,176a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0ZM88,96a12,12,0,1,1,12-12A12,12,0,0,1,88,96Zm96,80a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140Z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+
+    <div class="reveal" style="transition-delay:.15s">
+      <div class="cf">
+        <div class="cf-row">
+          <label class="cf-lbl">Your Name</label>
+          <input class="cf-inp" type="text" placeholder="Jane Smith">
+          <div class="cf-bottom-line"></div>
+        </div>
+        <div class="cf-row">
+          <label class="cf-lbl">Email Address</label>
+          <input class="cf-inp" type="email" placeholder="jane@example.com">
+          <div class="cf-bottom-line"></div>
+        </div>
+        <div class="cf-row">
+          <label class="cf-lbl">Phone / WhatsApp</label>
+          <input class="cf-inp" type="text" placeholder="+91 00000 00000">
+          <div class="cf-bottom-line"></div>
+        </div>
+        <div class="cf-row">
+          <label class="cf-lbl">Tell Me About Your Project</label>
+          <input class="cf-inp" type="text" placeholder="Brand identity, social kit, poster series...">
+          <div class="cf-bottom-line"></div>
+        </div>
+        <button class="cf-submit" id="cfBtn">SEND MESSAGE →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-inner">
+    <div class="f-logo">GORIFY<span>.</span></div>
+    <div class="f-email">
+      <div style="font-family:'Syne Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.2);margin-bottom:4px">Email</div>
+      <a href="mailto:gorifydesign@gmail.com">gorifydesign@gmail.com</a>
+    </div>
+    <div class="f-socials">
+      <a href="https://www.instagram.com/gorify.design" class="f-soc" target="_blank" rel="noopener" title="Instagram">
+        <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor"><path d="M176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24ZM128,176a48,48,0,1,1,48-48A48.05,48.05,0,0,1,128,176Zm60-96a12,12,0,1,1,12-12A12,12,0,0,1,188,80Zm-28,48a32,32,0,1,1-32-32A32,32,0,0,1,160,128Z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/deepikabansal16" class="f-soc" target="_blank" rel="noopener" title="LinkedIn">
+        <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor"><path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24ZM96,176a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0ZM88,96a12,12,0,1,1,12-12A12,12,0,0,1,88,96Zm96,80a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140Z"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="f-copy">© 2025 Artistry by Deepika · All rights reserved</div>
+    <div class="f-made">Designed with intention ✦</div>
+  </div>
+</footer>
+
+<script>
+/* ══ CURSOR ══ */
+const dot=document.getElementById('dot'),ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  dot.style.left=mx+'px';dot.style.top=my+'px';
+});
+(function loopRing(){
+  rx+=(mx-rx)*.1;ry+=(my-ry)*.1;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(loopRing);
+})();
+document.querySelectorAll('a,button,.work-thumb,.srv-card,.stat-cell,.portrait-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('cur-grow'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('cur-grow'));
+});
+
+/* ══ LOADER ══ */
+(function(){
+  const bar=document.getElementById('ldrBar'),pct=document.getElementById('ldrPct');
+  let p=0;
+  const iv=setInterval(()=>{
+    p+=Math.random()*18+4;
+    if(p>100){p=100;clearInterval(iv);
+      setTimeout(()=>{
+        document.getElementById('ldr').classList.add('fade-out');
+        document.getElementById('mainNav').classList.add('show');
+      },300);
+    }
+    bar.style.width=Math.min(p,100)+'%';
+    pct.textContent=Math.min(Math.floor(p),100)+'%';
+  },90);
+})();
+
+/* ══ SCROLL PROGRESS ══ */
+const pbar=document.getElementById('pbar');
+window.addEventListener('scroll',()=>{
+  pbar.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
+},{passive:true});
+
+/* ══ PARALLAX LAYERS ══ */
+window.addEventListener('scroll',()=>{
+  const sy=window.scrollY;
+  document.querySelectorAll('.plx-layer[data-depth]').forEach(el=>{
+    el.style.transform=`translateY(${sy*parseFloat(el.dataset.depth)}px)`;
+  });
+},{passive:true});
+
+/* ══ TILT CARD ══ */
+const tc=document.getElementById('tiltCard');
+if(tc){
+  tc.addEventListener('mousemove',e=>{
+    const r=tc.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5;
+    const y=(e.clientY-r.top)/r.height-.5;
+    tc.style.transform=`perspective(800px) rotateY(${x*16}deg) rotateX(${-y*16}deg) scale(1.02)`;
+  });
+  tc.addEventListener('mouseleave',()=>tc.style.transform='');
+}
+
+/* ══ REVEAL ══ */
+const revObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');revObs.unobserve(e.target)}});
+},{threshold:.1});
+document.querySelectorAll('.reveal,.reveal-x').forEach(el=>revObs.observe(el));
+
+/* ══ COUNTERS ══ */
+function animCount(el){
+  const t=parseInt(el.dataset.target||0);
+  if(!t)return;
+  const dur=1800,s=performance.now();
+  (function step(now){
+    const p=Math.min((now-s)/dur,1);
+    const e=1-Math.pow(1-p,3);
+    el.textContent=Math.floor(e*t)+(p>=1?'+':'');
+    if(p<1)requestAnimationFrame(step);
+  })(s);
+}
+new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('[data-target]').forEach(animCount);
+    }
+  });
+},{threshold:.3}).observe(document.querySelector('.stats-grid'));
+
+/* ══ SUBMIT ══ */
+document.getElementById('cfBtn').addEventListener('click',function(){
+  this.textContent='MESSAGE SENT ✓';
+  this.style.background='#57ff8a';
+  setTimeout(()=>{this.textContent='SEND MESSAGE →';this.style.background=''},2500);
+});
+
+/* ══ SMOOTH LINKS ══ */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}
+  });
+});
+</script>
+</body>
+</html>
