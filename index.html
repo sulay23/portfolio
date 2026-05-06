@@ -461,10 +461,12 @@ nav.show{opacity:1;transform:translateY(0)}
   transition:transform .4s cubic-bezier(.23,1,.32,1),border-color .3s;
 }
 .work-thumb:hover{transform:scale(1.03) translateY(-4px);border-color:var(--neon)}
-.wt-bg{
-  position:absolute;inset:0;transition:transform .6s cubic-bezier(.23,1,.32,1);
+.wt-img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  transition:transform .6s cubic-bezier(.23,1,.32,1);
 }
-.work-thumb:hover .wt-bg{transform:scale(1.08)}
+.work-thumb:hover .wt-img{transform:scale(1.08)}
 .wt-noise{
   position:absolute;inset:0;
   background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -483,19 +485,8 @@ nav.show{opacity:1;transform:translateY(0)}
   color:var(--neon);margin-bottom:4px;
 }
 .wt-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:white}
-/* colors */
-.c1{background:linear-gradient(135deg,#0d1a00,#1a3300,#2d5500)}
-.c2{background:linear-gradient(135deg,#001020,#002040,#003566)}
-.c3{background:linear-gradient(135deg,#1a0020,#330040,#55006b)}
-.c4{background:linear-gradient(135deg,#200010,#400020,#660035)}
-.c5{background:linear-gradient(135deg,#0a1a1a,#0d3030,#104848)}
-.c6{background:linear-gradient(135deg,#1a1000,#332000,#553500)}
-.c7{background:linear-gradient(135deg,#001a10,#003322,#005535)}
-.c8{background:linear-gradient(135deg,#100020,#200040,#350066)}
-.c9{background:linear-gradient(135deg,#1a0a00,#331500,#552200)}
-.c10{background:linear-gradient(135deg,#001018,#002030,#00354d)}
-.c11{background:linear-gradient(135deg,#12001a,#250035,#3a0055)}
-.c12{background:linear-gradient(135deg,#001a08,#003315,#005522)}
+/* work thumb fallback bg while image loads */
+.work-thumb{background:var(--panel)}
 
 /* ══ BANNER SECTION ══ */
 #banners{background:var(--surface);overflow:hidden;padding:80px 0}
@@ -512,23 +503,20 @@ nav.show{opacity:1;transform:translateY(0)}
 .b-card{
   width:360px;height:230px;flex-shrink:0;
   background:var(--panel);border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Syne Mono',monospace;font-size:11px;letter-spacing:.2em;
-  text-transform:uppercase;color:rgba(255,255,255,.2);
   position:relative;overflow:hidden;
   transition:border-color .3s;
 }
 .b-card:hover{border-color:rgba(184,255,87,.3)}
 .b-card::before{
-  content:'';position:absolute;inset:0;
+  content:'';position:absolute;inset:0;z-index:1;
   background:linear-gradient(135deg,transparent 40%,rgba(184,255,87,.04));
+  pointer-events:none;
 }
-.b-bg1{background:linear-gradient(135deg,#150a2a,#2d1560)}
-.b-bg2{background:linear-gradient(135deg,#0a1520,#153060)}
-.b-bg3{background:linear-gradient(135deg,#0a1a0d,#153520)}
-.b-bg4{background:linear-gradient(135deg,#2a0a0a,#601515)}
-.b-bg5{background:linear-gradient(135deg,#1a150a,#352a10)}
-.b-bg6{background:linear-gradient(135deg,#0a1a20,#103540)}
+.b-img{
+  width:100%;height:100%;object-fit:cover;object-position:center;
+  display:block;transition:transform .6s cubic-bezier(.23,1,.32,1);
+}
+.b-card:hover .b-img{transform:scale(1.06)}
 
 /* ══ CONTACT ══ */
 #contact{background:var(--bg);position:relative;overflow:hidden}
@@ -1106,35 +1094,35 @@ footer{
   <div class="works-rows">
     <!-- Row 1 -->
     <div class="works-row r1">
-      <img class="wt-bg" src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&fit=crop" alt="Café Social Post 01">
-      <div class="work-thumb"><div class="wt-bg c2"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Travel</div><div class="wt-name">Wanderlust Series</div></div></div>
-      <div class="work-thumb"><div class="wt-bg c3"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Clothing</div><div class="wt-name">Fashion Drop Campaign</div></div></div>
-      <div class="work-thumb"><div class="wt-bg c4"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Product</div><div class="wt-name">Brand Packaging</div></div></div>
-      <div class="work-thumb"><div class="wt-bg c5"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Food</div><div class="wt-name">Restaurant Menu Design</div></div></div>
-      <div class="work-thumb"><div class="wt-bg c6"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Travel</div><div class="wt-name">Destination Poster</div></div></div>
-      <!-- duplicate -->
-      <div class="work-thumb"><div class="wt-bg c1"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Food</div><div class="wt-name">Café Social Post 01</div></div></div>
-      <div class="work-thumb"><div class="wt-bg c2"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Travel</div><div class="wt-name">Wanderlust Series</div></div></div>
-      <div class="work-thumb"><div class="wt-bg c3"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Clothing</div><div class="wt-name">Fashion Drop Campaign</div></div></div>
-      <div class="work-thumb"><div class="wt-bg c4"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Product</div><div class="wt-name">Brand Packaging</div></div></div>
-      <div class="work-thumb"><div class="wt-bg c5"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Food</div><div class="wt-name">Restaurant Menu Design</div></div></div>
-      <div class="work-thumb"><div class="wt-bg c6"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Travel</div><div class="wt-name">Destination Poster</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-01.jpg" alt="Café Social Post 01"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Food</div><div class="wt-name">Café Social Post 01</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-02.jpg" alt="Wanderlust Series"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Travel</div><div class="wt-name">Wanderlust Series</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-03.jpg" alt="Fashion Drop Campaign"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Clothing</div><div class="wt-name">Fashion Drop Campaign</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-04.jpg" alt="Brand Packaging"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Product</div><div class="wt-name">Brand Packaging</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-05.jpg" alt="Restaurant Menu Design"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Food</div><div class="wt-name">Restaurant Menu Design</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-06.jpg" alt="Destination Poster"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Travel</div><div class="wt-name">Destination Poster</div></div></div>
+      <!-- duplicate for seamless marquee loop -->
+      <div class="work-thumb"><img class="wt-img" src="images/work-01.jpg" alt="Café Social Post 01"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Food</div><div class="wt-name">Café Social Post 01</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-02.jpg" alt="Wanderlust Series"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Travel</div><div class="wt-name">Wanderlust Series</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-03.jpg" alt="Fashion Drop Campaign"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Clothing</div><div class="wt-name">Fashion Drop Campaign</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-04.jpg" alt="Brand Packaging"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Product</div><div class="wt-name">Brand Packaging</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-05.jpg" alt="Restaurant Menu Design"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Food</div><div class="wt-name">Restaurant Menu Design</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-06.jpg" alt="Destination Poster"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Travel</div><div class="wt-name">Destination Poster</div></div></div>
     </div>
     <!-- Row 2 -->
     <div class="works-row r2">
-      <div class="work-thumb"><div class="wt-bg c7"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Clothing</div><div class="wt-name">Streetwear Collection</div></div></div>
-      <div class="work-thumb"><div class="wt-bg c8"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Product</div><div class="wt-name">Skincare Brand Kit</div></div></div>
-      <div class="work-thumb"><div class="wt-bg c9"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Food</div><div class="wt-name">Bakery Identity System</div></div></div>
-      <div class="work-thumb"><div class="wt-bg c10"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Travel</div><div class="wt-name">City Guide Series</div></div></div>
-      <div class="work-thumb"><div class="wt-bg c11"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Branding</div><div class="wt-name">Startup Visual Identity</div></div></div>
-      <div class="work-thumb"><div class="wt-bg c12"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Social</div><div class="wt-name">Campaign Launch Kit</div></div></div>
-      <!-- duplicate -->
-      <div class="work-thumb"><div class="wt-bg c7"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Clothing</div><div class="wt-name">Streetwear Collection</div></div></div>
-      <div class="work-thumb"><div class="wt-bg c8"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Product</div><div class="wt-name">Skincare Brand Kit</div></div></div>
-      <div class="work-thumb"><div class="wt-bg c9"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Food</div><div class="wt-name">Bakery Identity System</div></div></div>
-      <div class="work-thumb"><div class="wt-bg c10"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Travel</div><div class="wt-name">City Guide Series</div></div></div>
-      <div class="work-thumb"><div class="wt-bg c11"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Branding</div><div class="wt-name">Startup Visual Identity</div></div></div>
-      <div class="work-thumb"><div class="wt-bg c12"></div><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Social</div><div class="wt-name">Campaign Launch Kit</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-07.jpg" alt="Streetwear Collection"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Clothing</div><div class="wt-name">Streetwear Collection</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-08.jpg" alt="Skincare Brand Kit"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Product</div><div class="wt-name">Skincare Brand Kit</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-09.jpg" alt="Bakery Identity System"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Food</div><div class="wt-name">Bakery Identity System</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-10.jpg" alt="City Guide Series"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Travel</div><div class="wt-name">City Guide Series</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-11.jpg" alt="Startup Visual Identity"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Branding</div><div class="wt-name">Startup Visual Identity</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-12.jpg" alt="Campaign Launch Kit"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Social</div><div class="wt-name">Campaign Launch Kit</div></div></div>
+      <!-- duplicate for seamless marquee loop -->
+      <div class="work-thumb"><img class="wt-img" src="images/work-07.jpg" alt="Streetwear Collection"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Clothing</div><div class="wt-name">Streetwear Collection</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-08.jpg" alt="Skincare Brand Kit"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Product</div><div class="wt-name">Skincare Brand Kit</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-09.jpg" alt="Bakery Identity System"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Food</div><div class="wt-name">Bakery Identity System</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-10.jpg" alt="City Guide Series"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Travel</div><div class="wt-name">City Guide Series</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-11.jpg" alt="Startup Visual Identity"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Branding</div><div class="wt-name">Startup Visual Identity</div></div></div>
+      <div class="work-thumb"><img class="wt-img" src="images/work-12.jpg" alt="Campaign Launch Kit"><div class="wt-noise"></div><div class="wt-label"><div class="wt-cat">Social</div><div class="wt-name">Campaign Launch Kit</div></div></div>
     </div>
   </div>
 </div>
@@ -1150,18 +1138,18 @@ footer{
   </div>
   <div class="banner-mq-wrap" style="padding:0 52px">
     <div class="banner-mq">
-      <div class="b-card b-bg1">Café Banner 01</div>
-      <div class="b-card b-bg2">Café Banner 02</div>
-      <div class="b-card b-bg3">Café Banner 03</div>
-      <div class="b-card b-bg4">Café Banner 04</div>
-      <div class="b-card b-bg5">Café Banner 05</div>
-      <div class="b-card b-bg6">Café Banner 06</div>
-      <div class="b-card b-bg1">Café Banner 01</div>
-      <div class="b-card b-bg2">Café Banner 02</div>
-      <div class="b-card b-bg3">Café Banner 03</div>
-      <div class="b-card b-bg4">Café Banner 04</div>
-      <div class="b-card b-bg5">Café Banner 05</div>
-      <div class="b-card b-bg6">Café Banner 06</div>
+      <div class="b-card"><img class="b-img" src="images/banner-01.jpg" alt="Café Banner 01"></div>
+      <div class="b-card"><img class="b-img" src="images/banner-02.jpg" alt="Café Banner 02"></div>
+      <div class="b-card"><img class="b-img" src="images/banner-03.jpg" alt="Café Banner 03"></div>
+      <div class="b-card"><img class="b-img" src="images/banner-04.jpg" alt="Café Banner 04"></div>
+      <div class="b-card"><img class="b-img" src="images/banner-05.jpg" alt="Café Banner 05"></div>
+      <div class="b-card"><img class="b-img" src="images/banner-06.jpg" alt="Café Banner 06"></div>
+      <div class="b-card"><img class="b-img" src="images/banner-01.jpg" alt="Café Banner 01"></div>
+      <div class="b-card"><img class="b-img" src="images/banner-02.jpg" alt="Café Banner 02"></div>
+      <div class="b-card"><img class="b-img" src="images/banner-03.jpg" alt="Café Banner 03"></div>
+      <div class="b-card"><img class="b-img" src="images/banner-04.jpg" alt="Café Banner 04"></div>
+      <div class="b-card"><img class="b-img" src="images/banner-05.jpg" alt="Café Banner 05"></div>
+      <div class="b-card"><img class="b-img" src="images/banner-06.jpg" alt="Café Banner 06"></div>
     </div>
   </div>
 </div>
